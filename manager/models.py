@@ -10,7 +10,8 @@ class Role(models.Model):
 
 class UserDetail(models.Model):
     role_id = models.ForeignKey(Role, on_delete=models.CASCADE, default="")
-    user_name = models.CharField(max_length=225, default="")
+    user_fname = models.CharField(max_length=225, default="")
+    user_lname = models.CharField(max_length=225, default="")
     user_email = models.EmailField(primary_key=True, max_length=225, default="")
     user_password = models.CharField(max_length=20, default="")
     user_mobile = models.CharField(max_length=255, default="")
@@ -20,6 +21,11 @@ class UserDetail(models.Model):
     user_image = models.CharField(max_length=255, default="", null=True)
     user_isavailable = models.BooleanField(default=True)
     user_isqueue = models.BooleanField(default=False)
+    otp = models.CharField(default="", max_length=200, null=True)
+    date_reg = models.CharField(default="", max_length=200, null=True)
+    otp_time_gen = models.CharField(max_length=255, null=True, default="")
+    user_token = models.CharField(max_length=255, null=True, default="")
+    user_isverified = models.BooleanField(default=False)
 
 
 class ProdCategories(models.Model):

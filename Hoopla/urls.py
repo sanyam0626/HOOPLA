@@ -19,7 +19,12 @@ from user import views
 
 urlpatterns = [
     url('admin/', admin.site.urls),
-    url(r'^$', views.home),
+    url(r'^$', views.index),
+    url(r'^signup/$', views.signup),
+    url(r'^verify/', views.verify),
+    url(r'^contact/$', views.contact),
+    url(r'^mens/$', views.mens),
+    url(r'^womens/$', views.womens),
     url(r'^user/', include("user.urls")),
     url(r'^manager/', include("manager.urls"))
 ]
