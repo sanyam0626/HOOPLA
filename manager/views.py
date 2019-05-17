@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 import authorize as au
-from manager.models import UserDetail, ProdType, ProdCategories, ProdBrand
+import datetime as dt
+from manager.models import UserDetail, ProdType, ProdCategories, ProdBrand, ProdSize, Product
 from manager.forms import ProdCategoriesForm, ProdBrandForm, ProdSizeForm, ProductForm, ProdTypeForm
-
+from django.core.files.storage import FileSystemStorage
 # Create your views here.
 
 
@@ -15,7 +16,11 @@ def manager_home(request):
         except:
             return redirect("/user/login")
         if auth==True:
-            return render(request, "manager_master.html", {'su': userdata})
+            request.session['name'] = userdata.user_fname
+            request.session['image'] = userdata.user_image
+            tu= UserDetail.objects.filter(role_id_id=2).count()
+
+            return render(request, "manager_dashboard.html", {'su': userdata, 'tu':tu})
         else:
             auth, message = auth
             if message == "Not Login":
@@ -26,9 +31,43 @@ def manager_home(request):
         return redirect("/user/login")
 
 
+def something_wrong(request):
+    try:
+        auth = au.authorize_user(request.session['Authenticated'], request.session['role_id'], 1)
+    except:
+        return redirect("/user/login")
+    if auth == True:
+        return render(request, "500.html")
+    else:
+        auth, message = auth
+        if message == "Not Login":
+            return redirect("/user/login")
+        elif message == "Wrong Level":
+            return render(request, "404.html", {'pass': True})
+
+
+def page_nfound(request):
+    try:
+        auth = au.authorize_user(request.session['Authenticated'], request.session['role_id'], 1)
+    except:
+        return redirect("/user/login")
+    if auth == True:
+        return render(request, "404.html")
+    else:
+        auth, message = auth
+        if message == "Not Login":
+            return redirect("/user/login")
+        elif message == "Wrong Level":
+            return render(request, "404.html", {'pass': True})
+
+
 def add_prod_category(request):
     try:
-        if request.session['Authenticated'] and request.session['role_id'] == 1:
+        auth = au.authorize_user(request.session['Authenticated'], request.session['role_id'], 1)
+    except:
+        return redirect("/user/login")
+    if auth==True:
+        try:
             if request.method == "POST":
                 form = ProdCategoriesForm(request.POST)
                 f = form.save(commit=False)
@@ -37,32 +76,53 @@ def add_prod_category(request):
                 return render(request, "add_prod_category.html", {'success': True})
             else:
                 return render(request, "add_prod_category.html", {'failed': True})
-        else:
+        except:
+            return redirect("/manager/500")
+    else:
+        auth, message = auth
+        if message == "Not Login":
             return redirect("/user/login")
-    except:
-        return redirect("/")
+        elif message == "Wrong Level":
+            return render(request, "404.html", {'pass': True})
 
 
 def add_prod_size(request):
     try:
-        if request.session['Authenticated'] and request.session['role_id'] == 1:
-            if request.method == "POST":
-                form = ProdSizeForm(request.POST)
-                f = form.save(commit=False)
-                f.size_name = request.POST['size_name']
-                f.save()
-                return render(request, "add_prod_size.html", {'success': True})
-            else:
-                return render(request, "add_prod_size.html", {'failed': True})
-        else:
+        vt = ProdType.objects.all()
+        try:
+            auth = au.authorize_user(request.session['Authenticated'], request.session['role_id'], 1)
+        except:
             return redirect("/user/login")
+        if auth == True:
+            try:
+                if request.method == "POST":
+                    form = ProdSizeForm(request.POST)
+                    f = form.save(commit=False)
+                    f.size_name = request.POST['size_name']
+                    f.type_id_id = request.POST['type_name']
+                    f.save()
+                    return render(request, "add_prod_size.html", {'success': True,'obj':vt})
+                else:
+                    return render(request, "add_prod_size.html", {'obj':vt})
+            except:
+                return redirect("/manager/500")
+        else:
+            auth, message = auth
+            if message == "Not Login":
+                return redirect("/user/login")
+            elif message == "Wrong Level":
+                return render(request, "404.html", {'pass': True})
     except:
-        return redirect("/")
+        return redirect("user/login")
 
 
 def add_prod_type(request):
     try:
-        if request.sessio['Authenticated'] and request.session['role_id'] == 1:
+        auth = au.authorize_user(request.session['Authenticated'], request.session['role_id'], 1)
+    except:
+        return redirect("/user/login")
+    if auth == True:
+        try:
             if request.method == "POST":
                 form = ProdTypeForm(request.POST)
                 f = form.save(commit=False)
@@ -71,26 +131,74 @@ def add_prod_type(request):
                 return render(request, "add_prod_type.html", {'success': True})
             else:
                 return render(request, "add_prod_type.html", {'failed': True})
-        else:
+        except:
+            return redirect("/manager/500")
+    else:
+        auth, message = auth
+        if message == "Not Login":
             return redirect("/user/login")
-    except:
-        return redirect("/")
+        elif message == "Wrong Level":
+            return render(request, "404.html", {'pass': True})
 
 
 def add_product(request):
-    if request.method == "POST":
-        form = ProductForm(request.POST)
-        f = form.save(commit=False)
-        f.prod_name = request.POST['prod_name']
-        f.save()
-        return render(request, "add_product_category.html",{'success': True})
-    else:
-        return render(request, "add_product_category.html",{'failed': True})
+    try:
+        vt = ProdType.objects.all()
+        vc = ProdCategories.objects.all()
+        vb = ProdBrand.objects.all()
+        vs = ProdSize.objects.all()
+        try:
+            auth = au.authorize_user(request.session['Authenticated'], request.session['role_id'], 1)
+        except:
+            return redirect("/user/login")
+        if auth == True:
+            try:
+                if request.method == "POST":
+                    prod_image = None
+                    if request.FILES:
+                        myfile = request.FILES['prod_img1']
+                        fs = FileSystemStorage()
+                        filename = fs.save(myfile.name, myfile)
+                        fs.url(filename)
+                        prod_image = myfile.name
+                    form = ProductForm(request.POST)
+                    if form.is_valid():
+                        f1 = form.save(commit=False)
+                        f1.prod_name = (request.POST['prod_name']).capitalize()
+                        f1.prod_price = request.POST['prod_price']
+                        f1.user_email_id = request.session['emailid']
+                        f1.prod_description = request.POST['prod_desc']
+                        f1.prod_qty = request.POST['prod_qty']
+                        f1.prod_img1 = prod_image
+                        f1.cat_id_id = request.POST['cat_name']
+                        f1.type_id_id = request.POST['type_name']
+                        f1.size_id_id = request.POST['size_name']
+                        f1.brand_id_id = request.POST['brand_name']
+                        f1.prod_creationdate = dt.datetime.now().date()
+                        f1.save()
+                        return render(request, "add_product.html", {'success':True, 'vt': vt, 'vc': vc, 'vb': vb, 'vs': vs})
+                    else:
+                        return render(request, "add_product.html", {'vt': vt, 'vc': vc, 'vb': vb, 'vs': vs})
+                return render(request, "add_product.html", {'vt': vt, 'vc': vc, 'vb': vb, 'vs': vs})
+            except:
+                return redirect("/manager/500")
+        else:
+            auth, message = auth
+            if message == "Not Login":
+                return redirect("/user/login")
+            elif message == "Wrong Level":
+                return render(request, "404.html", {'pass': True})
+    except:
+        return redirect("user/login")
 
 
 def add_prod_brand(request):
     try:
-        if request.session['Authenticated'] and request.session['role_id'] == 1:
+        auth = au.authorize_user(request.session['Authenticated'], request.session['role_id'], 1)
+    except:
+        return redirect("/user/login")
+    if auth == True:
+        try:
             if request.method == "POST":
                 form = ProdBrandForm(request.POST)
                 f = form.save(commit=False)
@@ -99,40 +207,92 @@ def add_prod_brand(request):
                 return render(request, "add_prod_brand.html", {'success': True})
             else:
                 return render(request, "add_prod_brand.html", {'failed': True})
-        else:
+        except:
+            return redirect("/manager/500")
+    else:
+        auth, message = auth
+        if message == "Not Login":
             return redirect("/user/login")
+        elif message == "Wrong Level":
+            return render(request, "404.html", {'pass': True})
+
+
+def view_products(request):
+    try:
+        auth = au.authorize_user(request.session['Authenticated'], request.session['role_id'], 1)
     except:
-        return redirect("/")
+        return redirect("/user/login")
+    if auth == True:
+            product = Product.objects.all()
+            return render(request, "view_product.html", {'product': product})
+    else:
+        auth, message = auth
+        if message == "Not Login":
+            return redirect("/user/login")
+        elif message == "Wrong Level":
+            return render(request, "404.html", {'pass': True})
 
 
 def view_brand(request):
     try:
-        if request.session['Authenticated'] and request.session['role_id'] == 1:
-            vb = ProdBrand.objects.all()
-            return render(request, "view_brand.html", {'vb': vb})
-        else:
-            return redirect("/user/login")
+        auth = au.authorize_user(request.session['Authenticated'], request.session['role_id'], 1)
     except:
-        return redirect("/")
+        return redirect("/user/login")
+    if auth == True:
+        vb = ProdBrand.objects.all()
+        return render(request, "view_brand.html", {'vb': vb})
+    else:
+        auth, message = auth
+        if message == "Not Login":
+            return redirect("/user/login")
+        elif message == "Wrong Level":
+            return render(request, "404.html", {'pass': True})
 
 
 def view_type(request):
     try:
-        if request.sessio['Authenticated'] and request.session['role_id'] == 1:
+        auth = au.authorize_user(request.session['Authenticated'], request.session['role_id'], 1)
+    except:
+        return redirect("/user/login")
+    if auth == True:
             vt = ProdType.objects.all()
             return render(request, "view_type.html", {'vt': vt})
-        else:
+    else:
+        auth, message = auth
+        if message == "Not Login":
             return redirect("/user/login")
-    except:
-        return redirect("/")
+        elif message == "Wrong Level":
+            return render(request, "404.html", {'pass': True})
 
 
 def view_category(request):
     try:
-        if request.session['Authenticated'] and request.session['role_id'] == 1:
-            vc = ProdCategories.objects.all()
-            return render(request, "view_categories.html", {'vc': vc})
-        else:
-            return redirect("/user/login")
+        auth = au.authorize_user(request.session['Authenticated'], request.session['role_id'], 1)
     except:
-        return redirect("/")
+        return redirect("/user/login")
+    if auth == True:
+        vc = ProdCategories.objects.all()
+        return render(request, "view_categories.html", {'vc': vc})
+    else:
+        auth, message = auth
+        if message == "Not Login":
+            return redirect("/user/login")
+        elif message == "Wrong Level":
+            return render(request, "404.html", {'pass': True})
+
+
+def view_size(request):
+    try:
+        auth = au.authorize_user(request.session['Authenticated'], request.session['role_id'], 1)
+    except:
+        return redirect("/user/login")
+    if auth == True:
+        vs = ProdSize.objects.all()
+        return render(request, "view_size.html", {'vs': vs})
+    else:
+        auth, message = auth
+        if message == "Not Login":
+            return redirect("/user/login")
+        elif message == "Wrong Level":
+            return render(request, "404.html", {'pass': True})
+
