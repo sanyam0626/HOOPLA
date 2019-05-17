@@ -1,0 +1,156 @@
+{% extends 'main_master.html' %}
+{% block content %}
+<br><br><br><br><br><br>
+<div class="login">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+
+                {% if nverified %}
+
+                <div class="h4">You need to verify your email before logging in.</div>
+                <div class="h2">Login Form</div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-content">
+                <div class="input-group">
+				<span class="input-group-addon" id="email">Email</span>
+				<input type="email" class="form-control" placeholder="Email" aria-describedby="email" required=" " name="email">
+			</div>
+                <div class="input-group">
+				<span class="input-group-addon" id="password">Password</span>
+				<input type="password" class="form-control" placeholder="Password" aria-describedby="password" required=" " name="password">
+			</div>
+                <div class="forgot">
+                    <a href="/forgotpassword">Forgot Password</a>
+                </div><br>
+                <div class="input-group">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">Login</button>
+                        </span></div></div></form>
+                {% endif %}
+
+
+                {% if wrong_pass %}
+
+                <p>Incorrect Password.Please Try Again!</p>
+                <div class="h2">Login Form</div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-content">
+                <div class="input-group">
+				<span class="input-group-addon" id="email">Email</span>
+				<input type="email" class="form-control" placeholder="Email" aria-describedby="email" required=" " name="email">
+			</div>
+                <div class="input-group">
+				<span class="input-group-addon" id="password">Password</span>
+				<input type="password" class="form-control" placeholder="Password" aria-describedby="password" required=" " name="password">
+			</div>
+                <div class="forgot">
+                    <a href="/forgotpassword">Forgot Password</a>
+                </div><br>
+                <div class="input-group">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">Login</button>
+                        </span></div></div></form>
+                {% endif %}
+
+
+                {% if wrong_email %}
+
+                <p>Incorrect Email. This is not registered with us. Please create an account to Login!</p>
+                <div class="h2">Login Form</div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-content">
+                <div class="input-group">
+				<span class="input-group-addon" id="email">Email</span>
+				<input type="email" class="form-control" placeholder="Email" aria-describedby="email" required=" " name="email">
+			</div>
+                <div class="input-group">
+				<span class="input-group-addon" id="password">Password</span>
+				<input type="password" class="form-control" placeholder="Password" aria-describedby="password" required=" " name="password">
+			</div>
+                <div class="forgot">
+                    <a href="/forgotpassword">Forgot Password</a>
+                </div><br>
+                <div class="input-group">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">Login</button>
+                        </span></div></div></form>
+                {% endif %}
+
+
+                {% if login %}
+
+                <div class="h2">Login Form</div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-content">
+                <div class="input-group">
+				<span class="input-group-addon" id="email">Email</span>
+				<input type="email" class="form-control" placeholder="Email" aria-describedby="email" required=" " name="email">
+			</div>
+                <div class="input-group">
+				<span class="input-group-addon" id="password">Password</span>
+				<input type="password" class="form-control" placeholder="Password" aria-describedby="password" required=" " name="password">
+			</div>
+                <div class="forgot">
+                    <a href="/forgotpassword">Forgot Password</a>
+                </div><br>
+                <div class="input-group">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">Login</button>
+                        </span></div></div></form>
+
+                {% endif %}
+
+
+                {% if fp %}
+                <div class="h2">Forgot Password</div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-content">
+                <div class="input-group">
+				<span class="input-group-addon" id="email">Email</span>
+				<input type="email" class="form-control" placeholder="Email" aria-describedby="email" required=" " name="email">
+			</div>
+                <div class="input-group">
+						<span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">Submit</button>
+                        </span></div></div></form>
+                {% endif %}
+
+                {% if otp %}
+                {% if email %}
+                <div class="h2">Enter OTP</div>
+        <form method="post">
+            {% csrf_token %}
+            {% if wrong_otp %}
+            <p> The OTP is incorrect!</p>
+            {% endif %}
+            <div class="form-content">
+                <div class="input-group">
+				<span class="input-group-addon" id="email">Email</span>
+				<input type="email" class="form-control" aria-describedby="email" required=" " name="email" value={{email}}>
+			</div>
+                <div class="input-group">
+				<span class="input-group-addon" id="otp">OTP</span>
+				<input type="text" class="form-control" placeholder="One Time Password" aria-describedby="otp" required=" " name="otp">
+			</div>
+                <div class="input-group">
+						<span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">Submit</button>
+                        </span></div></div></form>
+                {% endif %}
+                {% endif %}
+
+        <br><br><div><h4>For New People</h4>
+			<p><a href="/signup">Register Here</a> (Or) go back to <a href="/">Home<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></p>
+		</div></div></div></div>
+			</div><br><br><br><br><br><br>
+{% if pass %}
+<script>alert("You need to Login first");</script>
+{% endif %}
+{% endblock content %}
+

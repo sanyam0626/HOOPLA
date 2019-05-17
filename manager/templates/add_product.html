@@ -1,0 +1,68 @@
+{% extends 'manager_master.html' %}
+{% block content %}
+<div id="page-wrapper">
+			<div class="main-page">
+				<div class="forms">
+					<div class="form-grids row widget-shadow" data-example-id="basic-forms">
+						<div class="form-title">
+							<h4>Add Product</h4>
+						<div class="form-body">
+                            <div class="row">
+							<form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {% if success %}
+                                <script>alert("Product Added Successfully!")</script>
+                                {% endif %}
+                                <div class="form-group">
+									<label for="selector2" class="control-label">Category Name</label>
+									<div><select name="cat_name" id="selector2" class="form-control">
+										{% if vc %}
+                                        {% for i in vc %}
+                                        <option value="{{ i.cat_id }}">{{ i.cat_name }}</option>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </select></div></div>
+                                <div class="form-group">
+									<label for="selector1" class="control-label">Type Name</label>
+									<div><select name="type_name" id="selector1" class="form-control">
+										{% if vt %}
+                                        {% for i in vt %}
+                                        <option value="{{ i.type_id }}">{{ i.type_name }}</option>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </select></div></div>
+                                <div class="form-group">
+									<label for="selector3" class="control-label">Brand Name</label>
+									<div><select name="brand_name" id="selector3" class="form-control">
+										{% if vb %}
+                                        {% for i in vb %}
+                                        <option value="{{ i.brand_id }}">{{ i.brand_name }}</option>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </select></div></div>
+                                <div class="form-group">
+									<label for="selector4" class="control-label">Select Size</label>
+									<div><select name="size_name" id="selector4" class="form-control">
+										{% if vs %}
+                                        {% for i in vs %}
+                                        <option value="{{ i.size_id }}">{{ i.size_name }}</option>
+                                        {% endfor %}
+                                        {% endif %}
+                                    </select></div></div>
+                                <div class="form-group">
+                                <input type="text" class="form-control" name="prod_name" id="prod_name" placeholder="Product Name"> </div>
+                                <div class="form-group">
+                                <input type="text" class="form-control" name="prod_price" id="prod_price" placeholder="Product Price"> </div>
+                                  <div class="form-group">
+                                <input type="text" class="form-control" name="prod_qty" id="prod_qty" placeholder="Product Quantity"> </div>
+                                <div class="form-group">
+                                    <label for="exampleInputFile">Product Image</label>
+                                    <input type="file" name="prod_img1" id="exampleInputFile"> </div>
+                                <div class="form-group">
+                                <input type="text" class="form-control" name="prod_desc" id="prod_desc" placeholder="Product Description"> </div>
+                            <div>
+                                <button type="submit" class="btn btn-default">Add Product</button>
+						</div>
+                            </form></div>
+                        </div></div></div></div></div></div>
+{% endblock content %}

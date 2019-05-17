@@ -1,0 +1,26 @@
+{% extends 'manager_master.html' %}
+{% block content %}
+<div id="page-wrapper">
+			<div class="main-page">
+				<div class="tables">
+					<h2 class="title1">View Categories</h2>
+					<div class="panel-body widget-shadow">
+						<table class="table">
+                            {% if vc %}
+							<thead>
+								<tr>
+								  <th>Category ID</th>
+								  <th>Category Name</th>
+								</tr>
+							</thead>
+                            {% for i in vc %}
+							<tbody>
+								<tr>
+								  <th scope="row">{{i.cat_id}}</th>
+								  <td>{{i.cat_name}}</td>
+                                {% endfor %}
+                                {% else %}
+                                <div class="h4">No Data Found</div>
+                                {% endif %}
+                                </tr></tbody></table></div></div></div></div>
+{% endblock content %}

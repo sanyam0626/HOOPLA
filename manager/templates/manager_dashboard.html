@@ -1,0 +1,36 @@
+{% extends 'manager_master.html' %}
+{% block content %}
+<div id="page-wrapper">
+			<div class="main-page">
+				<h2 class="title1">Select one to view</h2>
+				<!-- buttons -->
+				<!-- Color-variations -->
+				<div class="panel1 variations-panel">
+					<div class="panel-body mtn">
+						<div class="col-adjust-10">
+							<div class="row">
+								<div class="col-md-3 w3layouts-bnt">
+									<div class="bg-info dark pv20 text-white fw600 text-center"><a href="/manager/view_product">Products</a></div>
+								</div>
+								<div class="col-md-3 agileits-bnt">
+									<div class="bg-primary light pv20 text-white fw600 text-center"><a href="/manager/view_category">Product Categories</a></div>
+								</div>
+								<div class="col-md-3 agileinfo-bnt">
+									<div class="bg-success light pv20 text-white fw600 text-center"><a href="/manager/view_type">Product Type</a></div>
+								</div>
+								<div class="col-md-3 wthree-bnt">
+									<div class="bg-info light pv20 text-white fw600 text-center"><a href="/manager/view_size">Product Size</a></div>
+								</div>
+								<div class="col-md-3 w3-agileits-bnt">
+									<div class="bg-warning light pv20 text-white fw600 text-center"><a href="/manager/view_brand">Product Brand</a></div>
+								</div>
+                                <div class="clearfix"> </div>
+							</div>
+						</div>
+					</div>
+                </div>
+
+			<p> No. of Users</p>
+				<p>{{ tu }}</p>
+			</div></div>
+{% endblock content %}

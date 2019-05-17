@@ -1,0 +1,73 @@
+{% extends 'main_master.html' %}
+{% block content %}
+<div class="page-head_agile_info_w3l">
+		<div class="container">
+			<h3>Checkout <span>Page  </span></h3>
+	</div>
+</div>
+<br><br><br><form method="post">
+	{% csrf_token %}
+<div class="container">
+    <div class="page-header">
+				<h3 class="bars">Details</h3>
+		<p>If you wish to change the shipping address, change it here.</p>
+			</div>
+
+<div class="bs-docs-example">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Invoice</th>
+							<th>Ship To</th>
+							<th>Shipping Address</th>
+							<th>Landmark</th>
+							<th>Pincode</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+                            {% if ud %}
+							<td><input type="hidden" name="invoice" value="{{invoice}}">{{invoice}}</td>
+							<td>{{ud.user_fname}}</td>
+							<td><textarea name="address">{{ud.user_address}}</textarea></td>
+							<td><textarea name="landmark">{{ud.user_landmark}}</textarea></td>
+							<td><textarea name="pin">{{ud.user_pincode}}</textarea> </td>
+                            {% endif %}
+							<td><input type="hidden" name="total" value="{{total}}">{{total}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+    <div class="text-center">
+    <div class="grid_3 grid_5 w3">
+    <input type="radio" name="payment_mode" value="COD" class="mx-2" required=""><label>Cash on Delivery</label>
+		<input type="radio"  name="payment_mode" value="PayPal" class="mx-2" required=""><label>PayPal</label><br></div>
+    <div><h2><input type="submit" class="btn btn-primary" value="Place Order" id="cod" style="display:none;"></h2></div>
+		<div><h2><input type="submit" class="btn btn-primary" value="Proceed" id="proceed" style="display:none;"></h2></div>
+    </div></div>
+</form>
+{% if form %}
+<div class="text-center">
+    <div class="grid_3 grid_5 w3">
+		<div id="paypal">{{ form.render }}</div>
+	</div></div>
+{% endif %}
+<br><br><br><br><br>
+{% endblock content %}
+{% block jquery %}
+<script>$(document).ready(function(){
+$("input[type='radio']").change(function(){
+if($(this).val()=="COD")
+{
+$("#cod").show();
+$("#proceed").hide();
+}
+else{
+$("#proceed").show();
+$("#cod").hide();
+}
+})
+
+})</script>
+{% endblock jquery %}

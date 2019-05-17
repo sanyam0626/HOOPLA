@@ -1,0 +1,52 @@
+{% extends 'main_master.html' %}
+{% block content %}
+<br><br><br><div class="container">
+    <div class="page-header">
+				<h3 class="bars">My Orders</h3>
+        <p>Below are the order details.</p>
+			</div>
+<div class="bs-docs-example">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+
+							<th>Product Name</th>
+							<th>Product Quantity</th>
+							<th>Shipping Address</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+                    {% if sd %}
+                            {% for i in sd %}
+
+					<tbody>
+					<tr class="success">
+						<td><strong>Invoice Number</strong></td>
+						<td colspan="1"><strong>{{ i.invoice }}</strong></td>
+						<td colspan="1"><strong>{{ i.sale_date }}</strong></td>
+						<td></td>
+					</tr>
+					{% for j in sd %}
+
+					{% if i.invoice == j.invoice %}
+						<tr>
+
+
+							<td>{{j.product_name}}</td>
+							<td>{{j.prod_qty}}</td>
+							<td>{{j.user_address}}</td>
+							<td>{{j.total}}</td>
+
+						</tr>
+					{% endif %}
+					{% endfor %}
+                    {% endfor %}
+                            {% endif %}
+					</tbody>
+				</table>
+			</div>
+    <div class="checkout-right-basket text-center">
+					<a href="/"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Continue Shopping</a>
+				</div>
+   </div><br><br><br><br>
+{% endblock content %}

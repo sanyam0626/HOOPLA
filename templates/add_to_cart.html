@@ -1,0 +1,104 @@
+{% extends 'main_master.html' %}
+{% block checkout %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Super Market Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //for-mobile-apps -->
+<link href="/assets/checkout/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="/assets/checkout/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<!-- font-awesome icons -->
+<link href="/assets/checkout/css/font-awesome.css" rel="stylesheet"> 
+<!-- //font-awesome icons -->
+<!-- js -->
+<script src="/assets/checkout/js/jquery-1.11.1.min.js"></script>
+<!-- //js -->
+<link href='//fonts.googleapis.com/css?family=Raleway:400,100,100italic,200,200italic,300,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic' rel='stylesheet' type='text/css'>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<!-- start-smoth-scrolling -->
+<script type="text/javascript" src="/assets/checkout/js/move-top.js"></script>
+<script type="text/javascript" src="/assets/checkout/js/easing.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event){		
+			event.preventDefault();
+			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+		});
+	});
+</script>
+<!-- start-smoth-scrolling -->
+{% endblock checkout %}
+	
+{% block content %}
+<!-- checkout -->
+	<div class="checkout">
+		<div class="container">
+			<h2>Your shopping cart:</h2>
+			<div class="checkout-right">
+				<table class="timetable_sub">
+					<thead>
+						<tr>
+							<th>Product ID</th>
+							<th>Product</th>
+							<th>Quantity</th>
+							<th>Product Name</th>
+							<th>Price</th>
+							<th>SubTotal</th>
+							<th>Remove</th>
+						</tr>
+					</thead>
+						{% if prod %}
+						{% for i in prod %}
+					<tr class="rem1">
+						<td class="invert">{{i.product_id}}</td>
+						<td class="invert-image"><a href="single.html"><img src="/media/{{i.prod_image}}" alt=" " class="img-responsive" /></a></td>
+						<td class="invert">
+							 <div class="quantity">
+								<div class="quantity-select">
+									<a href="/decreaseqty/?id={{i.product_id}}"><div class="entry value-minus">&nbsp;</div></a>
+									<div class="entry value"><span>{{i.prod_qty}}</span></div>
+									<a href="/increaseqty/?id={{i.product_id}}"> <div class="entry value-plus active">&nbsp;</div></a>
+								</div>
+							</div>
+						</td>
+						<td class="invert">{{i.product_name}}</td>
+						<td class="invert">{{i.prod_price}}</td>
+						<td class="invert">{{i.prod_qty}}*{{i.prod_price}}={{i.subtotal}}</td>
+						<td class="invert">
+							<div class="rem">
+								<a href="/deleteproduct/?id={{i.product_id}}"><div class="close1"> </div></a>
+							</div>
+						</td>
+					</tr>
+					{% endfor %}
+					{% endif %}
+				</table>
+			</div>
+			<div class="checkout-left">	
+				<div class="checkout-left-basket">
+					<h4>Details:</h4>
+					<ul>
+						{% if prod %}
+						{% for i in prod %}
+						<li>Product-{{i.product_name}} <span>{{i.prod_price}} </span></li>
+						{% endfor %}
+						{% endif %}
+						<li>Total <i>-</i> <span><b>₹{{total.subtotal__sum}}</b></span></li>
+					</ul>
+				</div>
+				<div>
+				<div class="checkout-right-basket">
+					<a href="/checkout/?total={{total.subtotal__sum}}">Checkout <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a>
+				</div></div>
+				<div class="checkout-right-basket">
+					<a href="/"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Continue Shopping</a>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+<!-- //checkout -->
+{% endblock content %}
+

@@ -1,0 +1,23 @@
+{% extends 'manager_master.html' %}
+{% block content %}
+<div id="page-wrapper">
+			<div class="main-page">
+				<div class="forms">
+					<div class="form-grids row widget-shadow" data-example-id="basic-forms">
+						<div class="form-title">
+							<h4>Add Brand</h4>
+						<div class="form-body">
+							<form method="post">
+                                {% csrf_token %}
+                                {% if success %}
+                                <script>alert("Brand Added Successfully!")</script>
+                                {% endif %}
+                                <div class="form-group">
+                                <label for="exampleInputEmail1">Brand Name</label>
+                                <input type="text" class="form-control" name="brand_name" id="exampleInputEmail1" placeholder="Brand Name"> </div>
+                            <div>
+                                <button type="submit" class="btn btn-default">Add Brand</button>
+						</div>
+                            </form>
+                        </div></div></div></div></div></div>
+{% endblock content %}

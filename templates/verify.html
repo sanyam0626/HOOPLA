@@ -1,0 +1,28 @@
+{% extends 'main_master.html' %}
+{% block content %}
+{% if verified %}
+<div class="grid_3 grid_5 w3ls">
+				<h3>Verification</h3>
+				<div class="alert alert-success" role="alert">
+					<strong>Congrats!</strong> Your email has been verified successfully. Please move over to the login page to continue
+                    <a href="/user/login">Login</a>
+                </div></div>
+
+{% endif %}
+{% if tokenexp %}
+<div class="grid_3 grid_5 w3ls">
+				<h3>Verification</h3>
+				<div class="alert alert-info" role="alert">
+					<strong>Sorry!</strong> Your token has expired. Generate new token to continue.
+                </div></div>
+{% endif %}
+{% if averified %}
+<div class="grid_3 grid_5 w3ls">
+				<h3>Verification</h3>
+				<div class="alert alert-success" role="alert">
+					<strong>Hey!</strong> Your email has already been verified successfully. Please move over to the login page to continue
+                    <a href="/user/login">Login</a>
+                </div></div>
+{% endif %}
+{% endblock content %}
+{% if averified %

@@ -1,0 +1,108 @@
+{% extends 'main_master.html' %}
+{% block content %}
+<div class="signup">
+<div class="container text-center">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+    <div class="h2">Register Here</div>
+	<form method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+		<div class="form-header">Profile Information</div><span></span>
+		<div class="form-content">
+		<div class="input-group">
+				<span class="input-group-addon" id="first_name">First Name</span>
+				<input type="text" class="form-control" placeholder="First Name" aria-describedby="first_name" required=" " name="user_fname">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon" id="last_name">Last Name</span>
+				<input type="text" class="form-control" placeholder="Last Name" required=" " aria-describedby="last_name" name="user_lname">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon" id="email">Email</span>
+				<input type="email" class="form-control" placeholder="Email" aria-describedby="email" required=" " name="user_email">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon" id="password">Password</span>
+				<input type="password" class="form-control" placeholder="Password" aria-describedby="password" required=" " name="user_password" id="pass">
+				<span  toggle="#pass" class="input-group-addon toggle-password field-icon"><i class="fa fa-eye"></i></span>
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon" id="cpassword">Confirm Password</span>
+				<input type="password" class="form-control" placeholder="Confirm Password" aria-describedby="cpassword" required=" " id="cpass">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon" id="address">Address</span>
+				<input type="text" class="form-control" placeholder="Address" required=" " aria-describedby="address" name="user_address">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon" id="pincode">Pincode</span>
+				<input type="text" class="form-control" placeholder="Pincode" required=" " aria-describedby="pincode" name="user_pincode">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon" id="landmark">Landmark</span>
+				<input type="text" class="form-control" placeholder="Landmark" required=" " aria-describedby="landmark" name="user_landmark">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon" id="mobile">Mobile</span>
+				<input type="text" class="form-control" placeholder="Mobile" required=" " aria-describedby="mobile" name="user_mobile">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon" id="dob">Date of Birth</span>
+				<input type="date" class="form-control" placeholder="Date" required=" " aria-describedby="dob" name="user_dob">
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon" id="image">Upload Image</span>
+				<input type="file" class="form-control" placeholder="Select File" required=" " aria-describedby="image" name="user_image">
+			</div>
+			<div class="input-group text-left">
+				<span class="input-group-addon" id="gender">Gender</span>
+				<input type="radio" name="user_gender" value="Male" class="mx-2"><label>Male</label>
+				<input type="radio"  name="user_gender" value="Female" class="mx-2"><label>Female</label>
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon" id="role">Sign Up as</span>
+				<div class="select2-dropdown text-center">
+						<select name="role_id">
+							<option>Select Role</option>
+							<option value="2">User</option>
+							<option value="3">Seller</option>
+						</select></div>
+
+			</div>
+			<div class="input-group">
+						<span class="input-group-btn">
+							<button class="btn btn-default" type="submit">Submit</button>
+						</span></div>
+			</div>
+		</form>
+		</div></div></div></div>
+{% endblock content %}
+{% block jquery %}
+<script>
+	var a = document.getElementById("pass");
+	var b = document.getElementById("cpass");
+
+	function valPassword(){
+	if(a.value != b.value){
+	b.setCustomValidity("Passwords don't match");
+	}
+	else{
+	b.setCustomValidity("");
+	}}
+	a.onchange = valPassword;
+	b.onkeyup = valPassword;
+
+	$(".toggle-password").click(function(){
+
+	$(this).toggleClass("fa-eye-slash");
+	var input = $($(this).attr("toggle"));
+	if(input.attr("type") == "password"){
+	input.attr("type", "text");
+	}
+	else{
+	input.attr("type", "password");
+	}
+	});
+
+</script>
+{% endblock jquery %}

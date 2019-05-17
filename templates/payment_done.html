@@ -1,0 +1,41 @@
+{% extends 'main_master.html' %}
+{% block content %}
+<br><br><br><br><div class="container">
+    <div class="page-header">
+				<h3 class="bars">Congratulations! Your order has been placed successfully!</h3>
+        <p>Below are the order details.</p>
+			</div>
+<div class="bs-docs-example">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Invoice</th>
+							<th>Product Name</th>
+							<th>Product Quantity</th>
+							<th>Shipping Address</th>
+							<th>Total</th>
+                            <th>Payment</th>
+						</tr>
+					</thead>
+                    {% if sd %}
+                            {% for i in sd %}
+					<tbody>
+						<tr>
+
+							<td>{{i.invoice}}</td>
+							<td>{{i.product_name}}</td>
+							<td>{{i.prod_qty}}</td>
+							<td>{{i.user_address}}</td>
+							<td>{{i.total.subtotal__sum}}</td>
+                            <td>Success</td>
+						</tr>
+                    {% endfor %}
+                            {% endif %}
+					</tbody>
+				</table>
+			</div>
+    <div class="checkout-right-basket text-center">
+					<a href="/"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>Continue Shopping</a>
+				</div>
+   </div><br><br><br><br>
+{% endblock content %}

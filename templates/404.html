@@ -1,0 +1,12 @@
+{% extends 'main_master.html' %}
+{% block content %}<br><br><br><br><br>
+<div class="grid_3 grid_5 w3ls">
+				<h1>Error 404</h1>
+				<div class="alert alert-success" role="alert">
+					<strong>Sorry!</strong> The page you requested cannot be opened right now! Please move to the login page.
+                    <a href="/user/login">Click Here</a>
+                </div></div><br><br><br><br><br>
+{% if pass %}
+<script>alert("You are not authorised to open this page. Please Login First.");</script>
+{% endif %}
+{% endblock content %}
