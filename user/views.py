@@ -19,7 +19,15 @@ from paypal.standard.forms import PayPalPaymentsForm
 def index(request):
     clear_session(request)
     prod = Product.objects.all()
+    if request.method == "POST":
+        request.session['prod_id'] = request.POST['prod_id']
+        request.session['size'] = request.POST['size_id']
+        return redirect("/user/addtocart")
     return render(request, 'index.html', {'prod': prod})
+
+
+def about(request):
+    return render(request, "about.html")
 
 
 def login(request):
@@ -88,7 +96,7 @@ def signup(request):
             rn = random.randint(100000, 1000000)
             token = request.POST['user_email'][0:5]+str(rn)+str(request.POST['user_mobile'][5:10])
             f1.user_token = token
-            verify = "http://127.0.0.1:8000/verify?email="+request.POST['user_email']+"&token="+token
+            verify = "http://192.168.1.8:8080/verify?email="+request.POST['user_email']+"&token="+token
             email_send(f1.user_email, request.POST['user_password'], verify)
             f1.save()
             return redirect("/user/login")
@@ -210,16 +218,16 @@ def addtocart_user(request):
         return render(request, "login.html", {'pass': True})
     if auth==True:
         email = request.session['emailid']
-        pid = request.GET['pid']
+        pid = request.session['prod_id']
         prod_data = Product.objects.get(prod_id=pid)
         prod_name = prod_data.prod_name
         prod_price = prod_data.prod_price
         prod_type = prod_data.type_id_id
         prod_cat = prod_data.cat_id_id
         prod_img = prod_data.prod_img1
+        size = request.session['size']
         data = TempProduct.objects.filter(user_email=email, product_id=pid)
-        if request.method=="POST":
-            request.session['size'] = request.POST['size_id']
+
         if data:
             return redirect("/addtocart")
         else:
@@ -230,6 +238,7 @@ def addtocart_user(request):
             t.product_name = prod_name
             t.prod_price = prod_price
             t.prod_type = prod_type
+            t.prod_size = size
             t.prod_cat = prod_cat
             t.prod_image = prod_img
             t.add_date = dt.datetime.now().date()
@@ -285,7 +294,7 @@ def increase_qty(request):
     prod = TempProduct.objects.get(product_id=prod_id, user_email=email)
     a = prod.prod_qty+1
     price = a*prod.prod_price
-    update = TempProduct(tempproduct_id=prod.tempproduct_id, prod_qty=a, subtotal=price )
+    update = TempProduct(tempproduct_id=prod.tempproduct_id, prod_qty=a, subtotal=price)
     update.save(update_fields=['prod_qty', 'subtotal'])
     return redirect("/addtocart")
 
@@ -353,8 +362,6 @@ def checkout(request):
                 return redirect("/cod")
             if request.POST['payment_mode'] == "PayPal":
                 return render(request, "checkout.html", {'ud': ud, 'total': total, 'invoice': invoice, 'form': form})
-
-
         return render(request, "checkout.html", {'ud': ud, 'total': total, 'invoice': invoice})
     else:
         auth, message = auth
@@ -472,16 +479,22 @@ def payment_done(request):
 def show_orders(request):
     email = request.session['emailid']
     sd = SaleTable.objects.filter(user_email=email).order_by("-sale_id")
-    product=[]
-    num=""
-    for i in sd:
-        num=i.invoice
-        print(num)
-        break
     return render(request, "my_orders.html", {'sd': sd})
 
 
+def cancel_order(request):
+    request.session['invoice'] = request.GET['invoice']
+    pd = SaleTable.objects.filter(invoice=request.session['invoice'])
+    if request.method == "POST":
+        for i in pd:
+            update = SaleTable(sale_id=i.sale_id, is_active=False)
+            update.save(update_fields=['is_active'])
+        return render(request, "cancel_order.html", {'success': True})
+    return render(request, "cancel_order.html", {'pd': pd})
+
+
 def clear_session(request):
+    request.session['prod_id'] = ""
     request.session['address'] = ""
     request.session['landmark'] = ""
     request.session['pin'] = ""

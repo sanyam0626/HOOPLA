@@ -24,6 +24,7 @@ urlpatterns = [
     url('admin/', admin.site.urls),
     url(r'^$', views.index),
     url(r'^signup/$', views.signup),
+    url(r'^about/$', views.about),
     url(r'^verify/', views.verify),
     url(r'^contact/$', views.contact),
     url(r'^mens/$', views.mens),
@@ -39,6 +40,7 @@ urlpatterns = [
     url(r'^checkout/$', views.checkout),
     url(r'^cod/$', views.cod),
     url(r'^my_orders/$', views.show_orders),
+    url(r'^cancel_order/', views.cancel_order),
     url(r'^paypal/', include('paypal.standard.ipn.urls')),
     url(r'^payment_done/$', views.payment_done, name='payment_done'),
     url(r'^payment_canceled/$', TemplateView.as_view(template_name='payment_canceled.html'), name='payment_canceled')

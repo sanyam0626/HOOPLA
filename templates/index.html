@@ -101,8 +101,7 @@
 		<div class="col-md-6 agileits_schedule_bottom_right">
 			<div class="w3ls_schedule_bottom_right_grid">
 				<h3>Save up to <span>50%</span> in this week</h3>
-				<p>Suspendisse varius turpis efficitur erat laoreet dapibus.
-					Mauris sollicitudin scelerisque commodo.Nunc dapibus mauris sed metus finibus posuere.</p>
+				<p>Shop with Hoopla this week to Grab Amazing offers. Get Flat 50% off on selected products and Upto 50% off on other products. Happy Shopping with us!</p>
 				<div class="col-md-4 w3l_schedule_bottom_right_grid1">
 					<i class="fa fa-user-o" aria-hidden="true"></i>
 					<h4>Customers</h4>
@@ -206,46 +205,42 @@
 									<div class="men-thumb-item">
 										<img src="/media/{{i.prod_img1}}" alt="" class="pro-image-front">
 										<img src="/media/{{i.prod_img1}}" alt="" class="pro-image-back">
-											<div class="men-cart-pro">
+											<!--div class="men-cart-pro">
 												<div class="inner-men-cart-pro">
 													<a href="single.html" class="link-product-add-cart">Quick View</a>
 												</div>
-											</div>
+											</div-->
 											<span class="product-new-top">New</span>
 
 									</div>
 									<div class="item-info-product ">
-										<h4><a href="single.html">{{i.prod_name}}</a></h4>
+										<h4>{{i.prod_name}}</h4>
 										<div class="info-product-price">
 											<span class="item_price">₹{{i.prod_price}}</span>
 										</div>
 										{% if request.session.role_id == 2 %}
+										<form method="post">
+											{% csrf_token %}
 										<div class="select2-dropdown text-center">
-						<select name="role_id">
-							<option>Select Size</option>
-							<option value="S">S</option>
-							<option value="M">M</option>
-							<option value="L">L</option>
-							<option value="XL">XL</option>
-						</select></div>
+										<select name="size_id">
+											<option>Select Size</option>
+											<option value="S">S</option>
+											<option value="M">M</option>
+											<option value="L">L</option>
+											<option value="XL">XL</option>
+										</select></div>
 										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
-
-															<form method="get">
 																<fieldset>
-																	<a href="user/addtocart?pid={{i.prod_id}}"><input type="button" name="submit" value="Add to cart" class="button"/></a>
+																	<input type="hidden" name="prod_id" value="{{i.prod_id}}">
+																	<input type="submit" name="submit" value="Add to cart" class="button">
 																</fieldset>
-															</form>
-
 														</div>
+											</form>
 										{% else %}
 										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
-
-
 																<fieldset>
-																	<a href="user/addtocart?pid={{i.prod_id}}"><input type="button" value="Not Authorised" class="button"/></a>
+																	<input type="button" value="Please Login First" class="button"/>
 																</fieldset>
-
-
 														</div>
 										{% endif %}
 
@@ -269,26 +264,45 @@
 									<div class="men-thumb-item">
 										<img src="/media/{{i.prod_img1}}" alt="" class="pro-image-front">
 										<img src="/media/{{i.prod_img1}}" alt="" class="pro-image-back">
-											<div class="men-cart-pro">
+											<!--div class="men-cart-pro">
 												<div class="inner-men-cart-pro">
 													<a href="single.html" class="link-product-add-cart">Quick View</a>
 												</div>
-											</div>
+											</div-->
 											<span class="product-new-top">New</span>
 
 									</div>
 									<div class="item-info-product ">
-										<h4><a href="single.html">{{i.prod_name}}</a></h4>
+										<h4>{{i.prod_name}}</h4>
 										<div class="info-product-price">
 											<span class="item_price">₹{{i.prod_price}}</span>
 										</div>
+										{% if request.session.role_id == 2 %}
+										<form method="post">
+											{% csrf_token %}
+										<div class="select2-dropdown text-center">
+										<select name="size_id">
+											<option>Select Size</option>
+											<option value="S">S</option>
+											<option value="M">M</option>
+											<option value="L">L</option>
+											<option value="XL">XL</option>
+										</select></div>
 										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
-															<form method="post">
 																<fieldset>
-																	<a href="/user/addtocart?pid={{i.prod_id}}"><input type="button" name="submit" value="Add to cart" class="button" /></a>
+																	<input type="hidden" name="prod_id" value="{{i.prod_id}}">
+																	<input type="submit" name="submit" value="Add to cart" class="button">
 																</fieldset>
-															</form>
 														</div>
+											</form>
+										{% else %}
+										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
+																<fieldset>
+																	<input type="button" value="Please Login First" class="button"/>
+																</fieldset>
+														</div>
+										{% endif %}
+
 
 									</div>
 								</div>
@@ -307,26 +321,44 @@
 									<div class="men-thumb-item">
 										<img src="/media/{{i.prod_img1}}" alt="" class="pro-image-front">
 										<img src="/media/{{i.prod_img1}}" alt="" class="pro-image-back">
-											<div class="men-cart-pro">
+											<!--div class="men-cart-pro">
 												<div class="inner-men-cart-pro">
 													<a href="single.html" class="link-product-add-cart">Quick View</a>
 												</div>
-											</div>
+											</div-->
 											<span class="product-new-top">New</span>
 
 									</div>
 									<div class="item-info-product ">
-										<h4><a href="single.html">{{i.prod_name}}</a></h4>
+										<h4>{{i.prod_name}}</h4>
 										<div class="info-product-price">
 											<span class="item_price">₹{{i.prod_price}}</span>
 										</div>
+										{% if request.session.role_id == 2 %}
+										<form method="post">
+											{% csrf_token %}
+										<div class="select2-dropdown text-center">
+										<select name="size_id">
+											<option>Select Size</option>
+											<option value="S">S</option>
+											<option value="M">M</option>
+											<option value="L">L</option>
+											<option value="XL">XL</option>
+										</select></div>
 										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
-															<form method="post">
 																<fieldset>
-																	<a href="/user/addtocart?pid={{i.prod_id}}"><input type="button" name="submit" value="Add to cart" class="button" /></a>
+																	<input type="hidden" name="prod_id" value="{{i.prod_id}}">
+																	<input type="submit" name="submit" value="Add to cart" class="button">
 																</fieldset>
-															</form>
 														</div>
+											</form>
+										{% else %}
+										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
+																<fieldset>
+																	<input type="button" value="Please Login First" class="button"/>
+																</fieldset>
+														</div>
+										{% endif %}
 
 									</div>
 								</div>
@@ -344,26 +376,45 @@
 									<div class="men-thumb-item">
 										<img src="/media/{{i.prod_img1}}" alt="" class="pro-image-front">
 										<img src="/media/{{i.prod_img1}}" alt="" class="pro-image-back">
-											<div class="men-cart-pro">
+											<!--div class="men-cart-pro">
 												<div class="inner-men-cart-pro">
 													<a href="single.html" class="link-product-add-cart">Quick View</a>
 												</div>
-											</div>
+											</div-->
 											<span class="product-new-top">New</span>
 
 									</div>
 									<div class="item-info-product ">
-										<h4><a href="single.html">{{i.prod_name}}</a></h4>
+										<h4>{{i.prod_name}}</h4>
 										<div class="info-product-price">
 											<span class="item_price">₹{{i.prod_price}}</span>
 										</div>
+										{% if request.session.role_id == 2 %}
+										<form method="post">
+											{% csrf_token %}
+										<div class="select2-dropdown text-center">
+										<select name="size_id">
+											<option>Select Size</option>
+											<option value="S">S</option>
+											<option value="M">M</option>
+											<option value="L">L</option>
+											<option value="XL">XL</option>
+										</select></div>
 										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
-															<form method="post">
 																<fieldset>
-																	<a href="/user/addtocart?pid={{i.prod_id}}"><input type="button" name="submit" value="Add to cart" class="button" /></a>
+																	<input type="hidden" name="prod_id" value="{{i.prod_id}}">
+																	<input type="submit" name="submit" value="Add to cart" class="button">
 																</fieldset>
-															</form>
 														</div>
+											</form>
+										{% else %}
+										<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out button2">
+																<fieldset>
+																	<input type="button" value="Please Login First" class="button"/>
+																</fieldset>
+														</div>
+										{% endif %}
+
 
 									</div>
 								</div>

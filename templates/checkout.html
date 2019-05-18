@@ -16,7 +16,7 @@
 <div class="bs-docs-example">
 				<table class="table table-striped">
 					<thead>
-						<tr>
+						<tr class="success">
 							<th>Invoice</th>
 							<th>Ship To</th>
 							<th>Shipping Address</th>
@@ -28,7 +28,7 @@
 					<tbody>
 						<tr>
                             {% if ud %}
-							<td><input type="hidden" name="invoice" value="{{invoice}}">{{invoice}}</td>
+							<td><input type="hidden" name="invoice" value="{{invoice}}"><strong>{{invoice}}</strong></td>
 							<td>{{ud.user_fname}}</td>
 							<td><textarea name="address">{{ud.user_address}}</textarea></td>
 							<td><textarea name="landmark">{{ud.user_landmark}}</textarea></td>

@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 import authorize as au
 import datetime as dt
-from manager.models import UserDetail, ProdType, ProdCategories, ProdBrand, ProdSize, Product
+from manager.models import UserDetail, ProdType, ProdCategories, ProdBrand, ProdSize, Product, SaleTable
 from manager.forms import ProdCategoriesForm, ProdBrandForm, ProdSizeForm, ProductForm, ProdTypeForm
 from django.core.files.storage import FileSystemStorage
+from django.db.models import Sum
 # Create your views here.
 
 
@@ -18,9 +19,11 @@ def manager_home(request):
         if auth==True:
             request.session['name'] = userdata.user_fname
             request.session['image'] = userdata.user_image
-            tu= UserDetail.objects.filter(role_id_id=2).count()
+            user = UserDetail.objects.filter(role_id_id=2).count()
+            seller = UserDetail.objects.filter(role_id_id=3).count()
+            prod = Product.objects.all().count()
 
-            return render(request, "manager_dashboard.html", {'su': userdata, 'tu':tu})
+            return render(request, "manager_dashboard.html", {'su': userdata, 'user': user, 'seller': seller, 'prod': prod})
         else:
             auth, message = auth
             if message == "Not Login":
@@ -296,3 +299,34 @@ def view_size(request):
         elif message == "Wrong Level":
             return render(request, "404.html", {'pass': True})
 
+
+def view_user(request):
+    try:
+        auth = au.authorize_user(request.session['Authenticated'], request.session['role_id'], 1)
+    except:
+        return redirect("/user/login")
+    if auth == True:
+        vs = UserDetail.objects.filter(role_id_id=2)
+        return render(request, "view_users.html", {'user': vs})
+    else:
+        auth, message = auth
+        if message == "Not Login":
+            return redirect("/user/login")
+        elif message == "Wrong Level":
+            return render(request, "404.html", {'pass': True})
+
+
+def view_seller(request):
+    try:
+        auth = au.authorize_user(request.session['Authenticated'], request.session['role_id'], 1)
+    except:
+        return redirect("/user/login")
+    if auth == True:
+        vs = UserDetail.objects.filter(role_id_id=3)
+        return render(request, "view_sellers.html", {'seller': vs})
+    else:
+        auth, message = auth
+        if message == "Not Login":
+            return redirect("/user/login")
+        elif message == "Wrong Level":
+            return render(request, "404.html", {'pass': True})

@@ -24,7 +24,7 @@
 						<td><strong>Invoice Number</strong></td>
 						<td colspan="1"><strong>{{ i.invoice }}</strong></td>
 						<td colspan="1"><strong>{{ i.sale_date }}</strong></td>
-						<td></td>
+						<td><a href="/cancel_order/?invoice={{i.invoice}}">Cancel Order</a></td>
 					</tr>
 					{% for j in sd %}
 

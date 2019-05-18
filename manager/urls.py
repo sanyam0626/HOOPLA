@@ -15,5 +15,7 @@ urlpatterns = [
     url(r'^404/$', views.page_nfound, name="page_not_found"),
     url(r'^add_product/$', views.add_product, name="add_product"),
     url(r'^view_product/$', views.view_products, name="view_product"),
-    url(r'^view_size/$', views.view_size, name="view_size")
+    url(r'^view_size/$', views.view_size, name="view_size"),
+    url(r'^view_users/$', views.view_user, name="view_users"),
+    url(r'^view_sellers/$', views.view_seller, name="view_sellers")
 ]
